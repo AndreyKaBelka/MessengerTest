@@ -17,12 +17,10 @@ router.get("/:userId", function (req, res) {
       user_id: userId,
       anonymous: false,
       email: utils.getTestEmail(),
-      phone: null,
       name: utils.getNameById(userId),
-      pseudonym: null,
+      pseudonym: utils.getPseudonym(),
       avatar: {
         type: "avatar",
-        image_url: null
       },
       app_id: utils.getRandomAppId(),
       companies: {
@@ -30,17 +28,13 @@ router.get("/:userId", function (req, res) {
         companies: []
       },
       location_data: {},
-      last_request_at: null,
       created_at: new Date().getTime(),
-      remote_created_at: null,
-      signed_up_at: null,
       updated_at: new Date().getTime(),
       session_count: 0,
       social_profiles: {
         type: "social_profile.list",
         social_profiles: []
       },
-      owner_id: null,
       unsubscribed_from_emails: false,
       marked_email_as_spam: false,
       has_hard_bounced: false,
@@ -53,13 +47,6 @@ router.get("/:userId", function (req, res) {
         segments: []
       },
       custom_attributes: {},
-      referrer: null,
-      utm_campaign: null,
-      utm_content: null,
-      utm_medium: null,
-      utm_source: null,
-      utm_term: null,
-      do_not_track: null
     }
   }
   return res.send(response);

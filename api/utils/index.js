@@ -17,6 +17,10 @@ exports.getNameById = function (id) {
   return names[id];
 }
 
+exports.getRandomUserId = function () {
+  return Math.floor(Math.random() * this.getNamesCount()).toString();
+}
+
 exports.getRandomAppId = function () {
   return makeId(8);
 }

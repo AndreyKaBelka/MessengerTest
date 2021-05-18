@@ -7,7 +7,7 @@ router.get("/admins/:adminId", function (req, res) {
   const adminId = req.params.adminId;
   const response = {
     type: "admin",
-    id: adminId,
+    id: adminId.toString(),
     name: utils.getNameById(adminId),
     email: utils.getTestEmail(),
     away_mode_enabled: false,
@@ -19,7 +19,7 @@ router.get("/admins/:adminId", function (req, res) {
 }).get("/me", function (req, res) {
   let response = {
     type: "admin",
-    id: 1,
+    id: "1",
     email: utils.getTestEmail(),
     name: utils.getNameById(1),
     email_verified: true,

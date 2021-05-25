@@ -1,0 +1,3 @@
+FROM atlassian/jira-software
+
+COPY drivers/ojdbc7.jar /opt/atlassian/jira/lib

@@ -1,0 +1,40 @@
+version: '3.2'
+
+services:
+  oracle:
+    image: sha256:12a359cd052828523d9e7479673c26c4c9c23cc628d7a4e7210ea7deae4994d7
+    container_name: oracleDb
+    volumes:
+      - oracle-data:/ORCL
+    networks:
+      - jira-db
+  jira:
+    build:
+      context: ./dbtest
+      dockerfile: Jira-Dockerfile
+    container_name: jiraTest
+    depends_on:
+      - oracle
+    networks:
+      - jira-db
+    ports:
+      - 8080:8080
+    volumes:
+      - jira-data:/var/atlassian/application-data/jira
+  fakeapi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: fakeapi
+    networks:
+      - jira-db
+
+networks:
+  jira-db:
+    driver: bridge
+
+volumes:
+  oracle-data:
+    external: true
+  jira-data:
+    external: true

@@ -1,0 +1,45 @@
+version: '3.2'
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    container_name: sqlserverDb
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Qwerty01!
+    volumes:
+      - sqlserver-data:/var/opt/mssql
+    networks:
+      - jira-db
+  jira:
+    build:
+      context: ./dbtest
+      dockerfile: Jira-Dockerfile
+    container_name: jiraTest
+    depends_on:
+      - sqlserver
+    networks:
+      - jira-db
+    ports:
+      - target: 8080
+        published: 8080
+        mode: host
+    volumes:
+      - jira-data:/var/atlassian/application-data/jira
+  fakeapi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: fakeapi
+    networks:
+      - jira-db
+
+networks:
+  jira-db:
+    driver: bridge
+
+volumes:
+  sqlserver-data:
+    external: true
+  jira-data:
+    external: true

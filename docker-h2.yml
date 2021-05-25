@@ -1,0 +1,31 @@
+version: "3.3"
+
+services:
+  jira:
+    build:
+      context: ./dbtest
+      dockerfile: Jira-Dockerfile
+    container_name: jiraTest
+    networks:
+      - jira-db
+    ports:
+      - 8080:8080
+    volumes:
+      - jira-data:/var/atlassian/application-data/jira
+    environment:
+      - JVM_SUPPORT_RECOMMENDED_ARGS="-Xdebug -Xrunjdwp:transport=dt_socket,address=5005,server=y,suspend=n"
+  fakeapi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: fakeapi
+    networks:
+      - jira-db
+
+networks:
+  jira-db:
+    driver: bridge
+
+volumes:
+  jira-data:
+    external: true
